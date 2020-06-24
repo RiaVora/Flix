@@ -8,11 +8,13 @@
 
 #import "MoviesViewController.h"
 #import "MovieCell.h";
+#import "UIImageView+AFNetworking.h";
 
 @interface MoviesViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *movies;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
 
@@ -24,6 +26,16 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     // Do any additional setup after loading the view.
+    
+    [self fetchMovies];
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(fetchMovies) forControlEvents:UIControlEventValueChanged];
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
+
+}
+
+- (void)fetchMovies {
     
     NSURL *url = [NSURL URLWithString:@"https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed"];
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
@@ -46,8 +58,10 @@
                // TODO: Store the movies in a property to use elsewhere
                // TODO: Reload your table view data
                
-               [self.tableView reloadData]; 
+               [self.tableView reloadData];
            }
+        
+        [self.refreshControl endRefreshing];
                
        }];
     [task resume];
@@ -64,6 +78,18 @@
     NSDictionary *movie = self.movies[indexPath.row];
     cell.titleLabel.text = movie[@"title"];
     cell.descriptionLabel.text = movie[@"overview"];
+    
+    NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
+    NSString *posterURLString = movie[@"poster_path"];
+    NSString *fullPosterURLString = [baseURLString stringByAppendingString:posterURLString];
+    
+    NSURL *posterURL = [NSURL URLWithString:fullPosterURLString];
+    
+    //clear cell image of previous poster
+    cell.posterView.image = nil;
+    
+    [cell.posterView setImageWithURL:posterURL];
+    
     return cell;
 }
 
