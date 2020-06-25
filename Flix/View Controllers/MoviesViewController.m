@@ -16,6 +16,7 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *movies;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @end
 
@@ -31,6 +32,8 @@
     [self fetchMovies];
     
     self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.activityIndicator startAnimating];
+
     [self.refreshControl addTarget:self action:@selector(fetchMovies) forControlEvents:UIControlEventValueChanged];
     [self.tableView insertSubview:self.refreshControl atIndex:0];
 
@@ -63,6 +66,8 @@
            }
         
         [self.refreshControl endRefreshing];
+        
+        [self.activityIndicator stopAnimating];
                
        }];
     [task resume];
@@ -73,7 +78,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    //MovieCell is a class I made, and the parent is UITableViewCell so it can be used here
     MovieCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MovieCell"];
     
     NSDictionary *movie = self.movies[indexPath.row];
@@ -86,7 +90,6 @@
     
     NSURL *posterURL = [NSURL URLWithString:fullPosterURLString];
     
-    //clear cell image of previous poster
     cell.posterView.image = nil;
     
     [cell.posterView setImageWithURL:posterURL];
