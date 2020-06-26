@@ -105,6 +105,7 @@
                                         <size key="customSize" width="189" height="240"/>
                                         <connections>
                                             <outlet property="posterView" destination="oC9-ky-7bR" id="sk6-3X-Bw6"/>
+                                            <segue destination="7cq-Mh-GwA" kind="show" id="9df-MA-85P"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -214,11 +215,11 @@
             </objects>
             <point key="canvasLocation" x="-610" y="831"/>
         </scene>
-        <!--Search-->
+        <!--Collection-->
         <scene sceneID="bh1-YP-fTY">
             <objects>
                 <navigationController id="5HS-GY-obL" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Search" id="OoF-oC-snG"/>
+                    <tabBarItem key="tabBarItem" title="Collection" id="OoF-oC-snG"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Xfo-5z-MAL">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -232,4 +233,7 @@
             <point key="canvasLocation" x="454" y="801"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="9df-MA-85P"/>
+    </inferredMetricsTieBreakers>
 </document>
