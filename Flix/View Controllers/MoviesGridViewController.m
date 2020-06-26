@@ -11,10 +11,14 @@
 #import "UIImageView+AFNetworking.h"
 #import "DetailsViewController.h";
 
-@interface MoviesGridViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface MoviesGridViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, strong) NSArray *movies;
+@property (nonatomic, strong) NSArray *filteredMovies;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 
 @end
@@ -23,12 +27,19 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
+    self.searchBar.delegate = self;
     
     [self fetchMovies];
+    
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.activityIndicator startAnimating];
+
+    [self.refreshControl addTarget:self action:@selector(fetchMovies) forControlEvents:UIControlEventValueChanged];
+    [self.collectionView insertSubview:self.refreshControl atIndex:0];
     
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)
                                           self.collectionView.collectionViewLayout;
@@ -56,17 +67,16 @@
                NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
                
                self.movies = dataDictionary[@"results"];
-           
-               // TODO: Get the array of movies
-               // TODO: Store the movies in a property to use elsewhere
-               // TODO: Reload your table view data
+               
+               self.filteredMovies = self.movies;
                
                [self.collectionView reloadData];
            }
-//
-//        [self.refreshControl endRefreshing];
-//
-//        [self.activityIndicator stopAnimating];
+
+        [self.refreshControl endRefreshing];
+
+        [self.activityIndicator stopAnimating];
+        
                
        }];
     [task resume];
@@ -76,14 +86,11 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Uh Oh! Network Error!"
            message:@"We can't find your movies! It seems like there's an issue with your network."
     preferredStyle:(UIAlertControllerStyleAlert)];
-    // create a cancel action
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"I don't care :(" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                                                       }];
-    // add the cancel action to the alertController
     [alert addAction:cancelAction];
     
     [self presentViewController:alert animated:YES completion:^{
-        // optional code for what happens after the alert controller has finished presenting
     }];
 }
 
@@ -94,7 +101,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
      UITableViewCell *tappedCell = sender;
      NSIndexPath *indexPath = [self.collectionView indexPathForCell:tappedCell];
-     NSDictionary *movie = self.movies[indexPath.row];
+     NSDictionary *movie = self.filteredMovies[indexPath.row];
      
      DetailsViewController *detailsViewController = [segue destinationViewController];
      
@@ -104,7 +111,7 @@
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
     MovieCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MovieCollectionCell" forIndexPath:indexPath];
     
-    NSDictionary *movie = self.movies[indexPath.item];
+    NSDictionary *movie = self.filteredMovies[indexPath.item];
     
     NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
        NSString *posterURLString = movie[@"poster_path"];
@@ -120,7 +127,27 @@
 }
 
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.movies.count;
+    return self.filteredMovies.count;
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    
+    if (searchText.length != 0) {
+        
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(NSDictionary *evaluatedObject, NSDictionary *bindings) {
+            return [evaluatedObject[@"title"] containsString:searchText]; }];
+
+        self.filteredMovies = [self.movies filteredArrayUsingPredicate:predicate];
+        
+        NSLog(@"%@", self.filteredMovies);
+        
+    }
+    else {
+        self.filteredMovies = self.movies;
+    }
+    
+    [self.collectionView reloadData];
+ 
 }
 
 @end

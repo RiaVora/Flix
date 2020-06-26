@@ -11,10 +11,12 @@
 #import "UIImageView+AFNetworking.h";
 #import "DetailsViewController.h";
 
-@interface MoviesViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface MoviesViewController () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *movies;
+@property (nonatomic, strong) NSArray *filteredMovies;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
@@ -29,8 +31,8 @@
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    // Do any additional setup after loading the view.
-    
+    self.searchBar.delegate = self;
+
     [self fetchMovies];
     
     self.refreshControl = [[UIRefreshControl alloc] init];
@@ -57,13 +59,7 @@
                
                self.movies = dataDictionary[@"results"];
                
-               for (NSDictionary *movie in self.movies) {
-                   NSLog(@"%@", movie[@"title"]);
-                   
-               }
-               // TODO: Get the array of movies
-               // TODO: Store the movies in a property to use elsewhere
-               // TODO: Reload your table view data
+               self.filteredMovies = self.movies;
                
                [self.tableView reloadData];
            }
@@ -80,26 +76,23 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Uh Oh! Network Error!"
            message:@"We can't find your movies! It seems like there's an issue with your network."
     preferredStyle:(UIAlertControllerStyleAlert)];
-    // create a cancel action
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"I don't care :(" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                                                       }];
-    // add the cancel action to the alertController
     [alert addAction:cancelAction];
     
     [self presentViewController:alert animated:YES completion:^{
-        // optional code for what happens after the alert controller has finished presenting
     }];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.movies.count;
+    return self.filteredMovies.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     MovieCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MovieCell"];
     
-    NSDictionary *movie = self.movies[indexPath.row];
+    NSDictionary *movie = self.filteredMovies[indexPath.row];
     cell.titleLabel.text = movie[@"title"];
     cell.descriptionLabel.text = movie[@"overview"];
     
@@ -126,12 +119,32 @@
     
     UITableViewCell *tappedCell = sender;
     NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
-    NSDictionary *movie = self.movies[indexPath.row];
+    NSDictionary *movie = self.filteredMovies[indexPath.row];
     
     DetailsViewController *detailsViewController = [segue destinationViewController];
     
     detailsViewController.movie = movie;
     
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    
+    if (searchText.length != 0) {
+        
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(NSDictionary *evaluatedObject, NSDictionary *bindings) {
+            return [evaluatedObject[@"title"] containsString:searchText]; }];
+
+        self.filteredMovies = [self.movies filteredArrayUsingPredicate:predicate];
+        
+        NSLog(@"%@", self.filteredMovies);
+        
+    }
+    else {
+        self.filteredMovies = self.movies;
+    }
+    
+    [self.tableView reloadData];
+ 
 }
 
 @end
