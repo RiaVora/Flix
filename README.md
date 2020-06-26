@@ -44,6 +44,8 @@ Here's a walkthrough of implemented user stories:
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
+Please reference the "Network Error" screenshot in the Flix repository to see the Network Error feature in full effect.
+
 ## Notes
 
 One difficult part was getting the posters for the collection view to line up as they should. Using the number of posters to decide layout was hard to comprehend, but after experimenting with changing each of the variables, I now feel confident implementing my own formula!
