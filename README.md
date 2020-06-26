@@ -2,7 +2,7 @@
 
 **Flix** is a movies app using the [The Movie Database API](http://docs.themoviedb.apiary.io/#).
 
-Time spent: **X** hours spent in total
+Time spent: **6** hours spent in total
 
 ## User Stories
 
@@ -34,7 +34,7 @@ The following **additional** features are implemented:
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
 1. The placement of the description text to adjust with the length of the title text (i.e. if the title text is more than one line, the description text moves down a line)
-2. Be able to drag and re-order the "now playing" movies to be in the order you want them to be. The app also remembers this order
+2. If we are able to implement functionality that llows the user to drag and re-order the "now playing" movies to be in the order you want them to be. The app also remembers this order after closing.
 
 ## Video Walkthrough
 
@@ -46,7 +46,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+One difficult part was getting the posters for the collection view to line up as they should. Using the number of posters to decide layout was hard to comprehend, but after experimenting with changing each of the variables, I now feel confident implementing my own formula!
 
 ## Credits
 
@@ -56,7 +56,7 @@ List an 3rd party libraries, icons, graphics, or other assets you used in your a
 
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright [2020] [Ria Vora]
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
