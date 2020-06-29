@@ -24,7 +24,7 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-- [ ] The user can click a "Play Trailer" feature on the detail view that takes them to the trailer web view
+- [x] The user can click a "Play Trailer" feature on the detail view that takes them to the trailer web view
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
