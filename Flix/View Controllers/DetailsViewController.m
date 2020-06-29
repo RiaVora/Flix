@@ -8,6 +8,8 @@
 
 #import "DetailsViewController.h"
 #import "UIImageView+AFNetworking.h";
+#import "TrailerViewController.h";
+#import <UIKit/UIKit.h>;
 
 
 @interface DetailsViewController ()
@@ -15,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *posterView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *descriptionsLabel;
+@property (weak, nonatomic) IBOutlet UIButton *trailerButton;
 
 @end
 
@@ -22,7 +25,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                         forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    
+    [self setTrailerButton];
     
     NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
     NSString *posterURLString = self.movie[@"poster_path"];
@@ -44,17 +52,18 @@
     [self.descriptionsLabel sizeToFit];
 }
 
-
+- (void)setTrailerButton {
+    self.trailerButton.layer.cornerRadius = 8;
+    self.trailerButton.layer.backgroundColor = UIColor.grayColor.CGColor;
+    
+}
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    UITableViewCell *tappedCell = sender;
-//    NSIndexPath *indexPath = [self.collectionView indexPathForCell:tappedCell];
-//    NSDictionary *movie = self.filteredMovies[indexPath.row];
-//
-//    DetailsViewController *detailsViewController = [segue destinationViewController];
-    
-//    detailsViewController.movie = movie;
+
+    TrailerViewController *trailerViewController = [segue destinationViewController];
+
+    trailerViewController.movie = self.movie;
 }
 
 @end

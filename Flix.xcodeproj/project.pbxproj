@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		582D8B7324A3F62400D4910B /* MovieCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 582D8B7224A3F62400D4910B /* MovieCell.m */; };
 		58591AEC24A69662003583AB /* TrailerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58591AEB24A69662003583AB /* TrailerViewController.m */; };
+		58591AEE24A6A1EB003583AB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58591AED24A6A1EB003583AB /* WebKit.framework */; };
 		58FA2C5424A3BF1D00BAE832 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 58FA2C5324A3BF1D00BAE832 /* AppDelegate.m */; };
 		58FA2C5724A3BF1D00BAE832 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 58FA2C5624A3BF1D00BAE832 /* SceneDelegate.m */; };
 		58FA2C5D24A3BF1D00BAE832 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58FA2C5B24A3BF1D00BAE832 /* Main.storyboard */; };
@@ -51,6 +52,7 @@
 		582D8B7224A3F62400D4910B /* MovieCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MovieCell.m; sourceTree = "<group>"; };
 		58591AEA24A69662003583AB /* TrailerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TrailerViewController.h; sourceTree = "<group>"; };
 		58591AEB24A69662003583AB /* TrailerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TrailerViewController.m; sourceTree = "<group>"; };
+		58591AED24A6A1EB003583AB /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		58FA2C4F24A3BF1D00BAE832 /* Flix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58FA2C5224A3BF1D00BAE832 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		58FA2C5324A3BF1D00BAE832 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58591AEE24A6A1EB003583AB /* WebKit.framework in Frameworks */,
 				C1EB377E24D2884A05ED669E /* Pods_Flix.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -219,6 +222,7 @@
 		D982925D8E7F8A4E8F64CF8D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				58591AED24A6A1EB003583AB /* WebKit.framework */,
 				31C5FB9DAE915E7F3CF7C4D2 /* Pods_Flix.framework */,
 				2AE764C2ADB70FED9B95BA12 /* Pods_Flix_FlixUITests.framework */,
 				635736ABCA52550B67346355 /* Pods_FlixTests.framework */,

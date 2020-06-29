@@ -32,6 +32,7 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.searchBar.delegate = self;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
 
     [self fetchMovies];
     
@@ -55,7 +56,6 @@
            }
            else {
                NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-               NSLog(@"%@", dataDictionary);
                
                self.movies = dataDictionary[@"results"];
                

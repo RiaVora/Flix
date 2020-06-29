@@ -138,9 +138,7 @@
             return [evaluatedObject[@"title"] containsString:searchText]; }];
 
         self.filteredMovies = [self.movies filteredArrayUsingPredicate:predicate];
-        
-        NSLog(@"%@", self.filteredMovies);
-        
+                
     }
     else {
         self.filteredMovies = self.movies;
