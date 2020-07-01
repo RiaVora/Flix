@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSURLSession *session;
 - (void)fetchNowPlaying:(void(^)(NSMutableArray *movies, NSError *error))completion;
+- (void)fetchPopular:(void(^)(NSMutableArray *movies, NSError *error))completion;
 
 @end
 
