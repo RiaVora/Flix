@@ -7,7 +7,24 @@
 //
 
 #import "MovieCollectionCell.h"
+#import "UIImageView+AFNetworking.h"
 
 @implementation MovieCollectionCell
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    // Initialization code
+}
+
+- (void)setMovie:(Movie *)movie {
+    _movie = movie;
+
+
+    self.posterView.image = nil;
+    if (movie.posterURL != nil) {
+        [self.posterView setImageWithURL:movie.posterURL];
+        
+    }
+}
 
 @end

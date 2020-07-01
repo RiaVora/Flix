@@ -32,21 +32,11 @@
     
     [self setTrailerButton];
     
-    NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
-    NSString *posterURLString = self.movie[@"poster_path"];
-    NSString *fullPosterURLString = [baseURLString stringByAppendingString:posterURLString];
-      
-    NSURL *posterURL = [NSURL URLWithString:fullPosterURLString];
-    [self.posterView setImageWithURL:posterURL];
+    [self.posterView setImageWithURL:self.movie.posterURL];
+    [self.backdropView setImageWithURL:self.movie.backdropURL];
     
-    NSString *backdropURLString = self.movie[@"backdrop_path"];
-    NSString *fullBackdropURLString = [baseURLString stringByAppendingString:backdropURLString];
-      
-    NSURL *backdropURL = [NSURL URLWithString:fullBackdropURLString];
-    [self.backdropView setImageWithURL:backdropURL];
-    
-    [self.titleLabel setText:self.movie[@"title"]];
-    [self.descriptionsLabel setText:self.movie[@"overview"]];
+    [self.titleLabel setText:self.movie.title];
+    [self.descriptionsLabel setText:self.movie.overview];
     
     [self.titleLabel sizeToFit];
     [self.descriptionsLabel sizeToFit];
